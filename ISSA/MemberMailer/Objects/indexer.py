@@ -12,3 +12,6 @@ class Indexer():
 
     def search_by_membership(self, status):
         pass
+
+    def search_by_officer(self, officerType):
+        pass
