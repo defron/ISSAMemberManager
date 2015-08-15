@@ -44,6 +44,14 @@ class Database(object):
 
     def update(self, id,table, **new_values):
         cur = self.con.cursor()
+        if(table == "BoardMember"):
+            cur.execute("Update BoardMember set titleid=:titleid, boardyear=:year WHERE id=:id",
+                        {"id": id, "titleid": new_values.get("titleid"), "year": new_values.get("year")})
+        elif(table == "People"):
+            cur.execute("Update People set firstname=:fname, lastname=:lname, email=:email, phone=:phone, gradyear=:year WHERE id=:id",
+                        {"id": id, "fname": new_values.get("fname"), "lname": new_values.get("lname"),
+                         "email": new_values.get("email"), "phone": new_values.get("phone"),
+                         "year": new_values.get("year")})
         for key, value in iter(new_values.items()):
             cur.execute("Update %s SET %s=\'%s\' WHERE id=%d" %(table, key, value, id))
 
