@@ -1,5 +1,5 @@
 import unittest
-from Test import Database
+from ISSA.MemberMailer.Objects.database import Database
 
 class TestInsert(unittest.TestCase):
 

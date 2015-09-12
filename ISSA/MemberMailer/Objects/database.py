@@ -3,11 +3,11 @@ import sys
 
 class Database(object):
     '''Class to handle connection to sqlite3 database'''
-    def __init__(self, db_file = 'memberdb.sqlite3'):
+    def __init__(self, db_file = 'C:/Users/Stormer/Documents/Github/ISSAMemberManager/db/memberdb.sqlite3'):
         self.con = sqlite3.connect(db_file)
 
         '''
-	def insert(self, id,fname, lname, email, phone, gradyear):
+	    def insert(self, id,fname, lname, email, phone, gradyear):
 		cur = self.con.cursor()
 		cur.execute("INSERT INTO people VALUES (:id, :fname,:lname,:email,:phone,:gradyear)", {"id":id, "fname":fname,
 		                                            "lname":lname, "email":email, "phone":phone, "gradyear":gradyear})
@@ -44,19 +44,36 @@ class Database(object):
 
     def update(self, id,table, **new_values):
         cur = self.con.cursor()
-        if(table == "BoardMember"):
-            cur.execute("Update BoardMember set titleid=:titleid, boardyear=:year WHERE id=:id",
-                        {"id": id, "titleid": new_values.get("titleid"), "year": new_values.get("year")})
-        elif(table == "People"):
-            cur.execute("Update People set firstname=:fname, lastname=:lname, email=:email, phone=:phone, gradyear=:year WHERE id=:id",
-                        {"id": id, "fname": new_values.get("fname"), "lname": new_values.get("lname"),
+        if (table.lower() == "alumni"):
+            cur.execute("UPDATE Alumni SET company=:company, title=:title, skills=:skills WHERE id=:id",
+                        {"id":id, "company":new_values.get("company"), "title":new_values.get("title"),
+                         "skills": new_values.get("skills")})
+
+        elif (table.lower() == "boardmember"):
+            cur.execute("UPDATE boardMember SET titleid=:titleid, boardyear=:year WHERE id=:id",
+                        {"id": id, "titleid": new_values.get("titleid"), "year": new_values.get("boardyear")})
+
+        elif (table.lower() == "boardtitle"):
+            cur.execute("UPDATE boardtitle SET title=:title, WHERE id=:id",
+                        {"id":id, "title":new_values.get("title")})
+
+        elif (table.lower() == "membership"):
+            cur.execute("UPDATE membership SET startsemester=:start, endsemester=:end WHERE id=:id",
+                        {"id":id, "start":new_values.get("startsemester"), "end":new_values.get("endsemester")})
+
+        elif(table.lower() == "people"):
+            cur.execute("UPDATE people SET firstname=:fname, lastname=:lname, email=:email, phone=:phone, gradyear=:year WHERE id=:id",
+                        {"id": id, "fname": new_values.get("firstname"), "lname": new_values.get("lastname"),
                          "email": new_values.get("email"), "phone": new_values.get("phone"),
-                         "year": new_values.get("year")})
-        for key, value in iter(new_values.items()):
-            cur.execute("Update %s SET %s=\'%s\' WHERE id=%d" %(table, key, value, id))
+                         "year": new_values.get("gradyear")})
+
+        elif (table.lower() == "tutor"):
+            cur.execute("UPDATE tutor SET subject=:subject, year=:year WHERE id=:id",
+                        {"id":id, "subject":new_values.get("subject"), "year":new_values.get("year")})
 
         self.con.commit()
         return "Success!"
+
 
     def delete(self, id):
         cur = self.con.cursor()
@@ -96,26 +113,8 @@ class Database(object):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#for key, value in iter(new_values.items()):
+        #   cur.execute("Update %s SET %s=\'%s\' WHERE id=%d" %(table, key, value, id))
 '''
 if __name__ == '__main__':
 db = database()
