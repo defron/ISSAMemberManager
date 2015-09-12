@@ -9,4 +9,4 @@ class TestPrint(unittest.TestCase):
 		self.assertEqual(print, "Success!")
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()

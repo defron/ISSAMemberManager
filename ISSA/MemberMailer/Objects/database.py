@@ -6,16 +6,7 @@ class Database(object):
     def __init__(self, db_file = 'C:/Users/Stormer/Documents/Github/ISSAMemberManager/db/memberdb.sqlite3'):
         self.con = sqlite3.connect(db_file)
 
-        '''
-	    def insert(self, id,fname, lname, email, phone, gradyear):
-		cur = self.con.cursor()
-		cur.execute("INSERT INTO people VALUES (:id, :fname,:lname,:email,:phone,:gradyear)", {"id":id, "fname":fname,
-		                                            "lname":lname, "email":email, "phone":phone, "gradyear":gradyear})
-		rows = cur.fetchall()
-		self.con.commit()
 
-		return "Success!"
-	'''
 
     def insert(self, fname, lname, email, phone, gradyear):
         cur = self.con.cursor()
@@ -32,44 +23,49 @@ class Database(object):
         self.con.commit()
         return "Success!"
 
-    '''
-	def update(self, id, column, new_value):
-		cur = self.con.cursor()
 
-		cur.execute("Update people SET %s=\'%s\' WHERE id=%d" %(column, new_value, id))
 
-		self.con.commit()
-		return "Success!"
-    '''
+    def update(self, id, table, **new_values):
 
-    def update(self, id,table, **new_values):
         cur = self.con.cursor()
+
         if (table.lower() == "alumni"):
-            cur.execute("UPDATE Alumni SET company=:company, title=:title, skills=:skills WHERE id=:id",
-                        {"id":id, "company":new_values.get("company"), "title":new_values.get("title"),
-                         "skills": new_values.get("skills")})
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE alumni SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
 
         elif (table.lower() == "boardmember"):
-            cur.execute("UPDATE boardMember SET titleid=:titleid, boardyear=:year WHERE id=:id",
-                        {"id": id, "titleid": new_values.get("titleid"), "year": new_values.get("boardyear")})
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE boardmember SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
 
         elif (table.lower() == "boardtitle"):
-            cur.execute("UPDATE boardtitle SET title=:title, WHERE id=:id",
-                        {"id":id, "title":new_values.get("title")})
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE boardtitle SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
 
         elif (table.lower() == "membership"):
-            cur.execute("UPDATE membership SET startsemester=:start, endsemester=:end WHERE id=:id",
-                        {"id":id, "start":new_values.get("startsemester"), "end":new_values.get("endsemester")})
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE membership SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
 
         elif(table.lower() == "people"):
-            cur.execute("UPDATE people SET firstname=:fname, lastname=:lname, email=:email, phone=:phone, gradyear=:year WHERE id=:id",
-                        {"id": id, "fname": new_values.get("firstname"), "lname": new_values.get("lastname"),
-                         "email": new_values.get("email"), "phone": new_values.get("phone"),
-                         "year": new_values.get("gradyear")})
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE people SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
 
         elif (table.lower() == "tutor"):
-            cur.execute("UPDATE tutor SET subject=:subject, year=:year WHERE id=:id",
-                        {"id":id, "subject":new_values.get("subject"), "year":new_values.get("year")})
+
+            keys = new_values.keys()
+            values = list(new_values.values()) + [id]
+            query = 'UPDATE tutor SET ' + ','.join(key + '=?' for key in keys) + ' WHERE id = ?'
+            cur.execute(query, values)
+
 
         self.con.commit()
         return "Success!"
@@ -92,7 +88,7 @@ class Database(object):
         rows = cur.fetchall()
 
         for row in rows:
-            print (row)
+            print(row)
         return "Success!"
 
 
@@ -102,15 +98,51 @@ class Database(object):
 
 
 
+'''
+cur.execute("UPDATE Alumni SET company=:company, title=:title, skills=:skills WHERE id=:id",
+                        {"id":id, "company":new_values.get("company"), "title":new_values.get("title"),
+                         "skills": new_values.get("skills")})
+
+cur.execute("UPDATE boardMember SET titleid=:titleid, boardyear=:year WHERE id=:id",
+            {"id": id, "titleid": new_values.get("titleid"), "year": new_values.get("boardyear")})
+
+cur.execute("UPDATE boardtitle SET title=:title, WHERE id=:id",
+
+            {"id":id, "title":new_values.get("title")})
+cur.execute("UPDATE membership SET startsemester=:start, endsemester=:end WHERE id=:id",
+            {"id":id, "start":new_values.get("startsemester"), "end":new_values.get("endsemester")})
+
+cur.execute("UPDATE people SET firstname=:fname, lastname=:lname, email=:email, phone=:phone, gradyear=:year WHERE id=:id",
+            {"id": id, "fname": new_values.get("firstname"), "lname": new_values.get("lastname"),
+             "email": new_values.get("email"), "phone": new_values.get("phone"),
+             "year": new_values.get("gradyear")})
+
+cur.execute("UPDATE tutor SET subject=:subject, year=:year WHERE id=:id",
+                        {"id":id, "subject":new_values.get("subject"), "year":new_values.get("year")})
+
+'''
 
 
+'''
+def insert(self, id,fname, lname, email, phone, gradyear):
+    cur = self.con.cursor()
+    cur.execute("INSERT INTO people VALUES (:id, :fname,:lname,:email,:phone,:gradyear)", {"id":id, "fname":fname,
+                                                "lname":lname, "email":email, "phone":phone, "gradyear":gradyear})
+    rows = cur.fetchall()
+    self.con.commit()
 
+    return "Success!"
+'''
 
+'''
+def update(self, id, column, new_value):
+    cur = self.con.cursor()
 
+    cur.execute("Update people SET %s=\'%s\' WHERE id=%d" %(column, new_value, id))
 
-
-
-
+    self.con.commit()
+    return "Success!"
+'''
 
 
 #for key, value in iter(new_values.items()):

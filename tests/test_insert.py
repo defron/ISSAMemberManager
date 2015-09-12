@@ -5,7 +5,7 @@ class TestInsert(unittest.TestCase):
 
     def test_insert_member(self):
         test_member = Database()
-        test = test_member.insert("Alex", "Kun","akun@gmail.com", "1029384757", 2019)
+        test = test_member.insert("Johny", "Nguyen","jnguyen@gmail.com", "1029384123", 2017)
         self.assertEqual(test, "Success!")
 
 if __name__ == '__main__':
