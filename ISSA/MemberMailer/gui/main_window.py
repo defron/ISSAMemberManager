@@ -4,11 +4,11 @@ import sys
 from PyQt4 import QtCore, QtGui, uic
 
 
-class MyWidget(QtGui.QWidget):
+class MyWidget(QtGui.QMainWindow):
 
     def __init__(self, parent=None):
         super(MyWidget, self).__init__(parent)
-        uic.loadUi('ISSAPrototype.ui', self)
+        uic.loadUi('mainWindow.ui', self)
 
 
 if(__name__ == '__main__'):
