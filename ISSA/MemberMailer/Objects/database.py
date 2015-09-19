@@ -8,17 +8,15 @@ class Database(object):
 
 
 
-    def insert(self, fname, lname, email, phone, gradyear):
+    def insert(self, table, **new_values):
         cur = self.con.cursor()
 
-        #Create a list of all the values to be inserted in the table
-        values = (fname, lname, email, phone, gradyear)
-
+        if table.lower() == "people":
         #Create the sql query
         query = "INSERT INTO people(firstname, lastname, email, phone, gradyear) VALUES (?,?,?,?,?)"
 
         #Execute the query, using the above list of values.
-        cur.execute(query, values)
+        cur.execute(query, new_values)
 
         self.con.commit()
         return "Success!"
