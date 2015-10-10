@@ -226,17 +226,8 @@ def update(self, id, column, new_value):
     return "Success!"
 '''
 
-
-#for key, value in iter(new_values.items()):
-        #   cur.execute("Update %s SET %s=\'%s\' WHERE id=%d" %(table, key, value, id))
 '''
-if __name__ == '__main__':
-db = database()
-sql = "SELECT * from PEOPLE"
-records = db.select(sql)
-for record in records:
-	print (record)
-==================================================================
+
 con = sqlite3.connect('memberdb.sqlite3')
 
 cur = con.cursor()
@@ -250,20 +241,4 @@ for row in rows:
 print (row)
 
 con.commit()
-===================================================================
-class database:
-    import sqlite3
-
-database.open()
-	    conn = sqlite3.connect('memberdb.db')
-        c = conn.cursor()
-
-database.runsql()
-def dataentry():
-c.execute("INSERT INTO PEOPLE (ID, FirstName, LastName, Email, Phone, GradYear) VALUES (?,?,?,?,?,?), source")
-conn.commit()
-# for source, i'm not sure what to put here. I'll do more research over the week.
-
-database.close()
-    conn.close()
 '''
