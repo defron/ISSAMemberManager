@@ -1,4 +1,4 @@
-1__author__ = 'Defron'
+__author__ = 'Defron'
 
 class Indexer():
     def search_by_name(self, name):
